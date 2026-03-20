@@ -1,10 +1,27 @@
 from datetime import datetime
+from typing import Union
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
 from app.services.transformers import melt_lagging
+
+
+def render_kpi_card(title: str, value: Union[str, int], detail: str, icon: str, tone: str = "neutral") -> None:
+    st.markdown(
+        f"""
+        <div class="kpi-card kpi-card--{tone}">
+            <div class="kpi-card__head">
+                <span class="kpi-card__label">{title}</span>
+                <span class="kpi-card__icon">{icon}</span>
+            </div>
+            <p class="kpi-card__value">{value}</p>
+            <p class="kpi-card__meta">{detail}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def chart_style(fig, title: str) -> None:
@@ -72,49 +89,13 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">DCM {period}</p>
-                <p class="kpi-value">{dcm_total}</p>
-                <p class="kpi-delta">Lagging total</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card(f"DCM {period}", dcm_total, "Lagging total", "SL", tone="info")
     with c2:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Contractor {period}</p>
-                <p class="kpi-value">{contractor_total}</p>
-                <p class="kpi-delta">Lagging total</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card(f"Contractor {period}", contractor_total, "Lagging total", "CT", tone="info")
     with c3:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Open Incidents</p>
-                <p class="kpi-value">{open_incidents}</p>
-                <p class="kpi-delta">{open_rate:.1f}% of all cases</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("Open Incidents", open_incidents, f"{open_rate:.1f}% of all cases", "IN", tone="risk")
     with c4:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Open Findings</p>
-                <p class="kpi-value">{open_findings}</p>
-                <p class="kpi-delta">Closure velocity {closure_ratio:.0f}%</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("Open Findings", open_findings, f"Closure velocity {closure_ratio:.0f}%", "FN", tone="focus")
 
     st.markdown(
         f"""
@@ -342,49 +323,13 @@ def render_incidents(df: pd.DataFrame) -> None:
 
     k1, k2, k3, k4 = st.columns(4)
     with k1:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Total Incidents</p>
-                <p class="kpi-value">{total_cases}</p>
-                <p class="kpi-delta">All recorded cases</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("Total Incidents", total_cases, "All recorded cases", "TC", tone="neutral")
     with k2:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Open Cases</p>
-                <p class="kpi-value">{open_cases}</p>
-                <p class="kpi-delta">{(open_cases / total_cases * 100):.1f}% backlog</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("Open Cases", open_cases, f"{(open_cases / total_cases * 100):.1f}% backlog", "OP", tone="risk")
     with k3:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">High Severity</p>
-                <p class="kpi-value">{high_cases}</p>
-                <p class="kpi-delta">{high_rate:.1f}% of all incidents</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("High Severity", high_cases, f"{high_rate:.1f}% of all incidents", "HS", tone="risk")
     with k4:
-        st.markdown(
-            f"""
-            <div class="glass">
-                <p class="kpi-title">Impacted Locations</p>
-                <p class="kpi-value">{unique_locations}</p>
-                <p class="kpi-delta">Distinct work areas</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        render_kpi_card("Impacted Locations", unique_locations, "Distinct work areas", "AR", tone="focus")
 
     st.dataframe(incidents.sort_values(["Date", "Time"], ascending=False), use_container_width=True)
 

@@ -15,6 +15,8 @@ def inject_global_css() -> None:
                 --text-soft: #b9cae0;
                 --accent: #5bc0eb;
                 --accent-soft: #9fd8f3;
+                --risk: #ff8a65;
+                --focus: #6ee7c8;
             }
 
             .stApp {
@@ -89,6 +91,94 @@ def inject_global_css() -> None:
                 -webkit-backdrop-filter: blur(10px);
                 box-shadow: 0 14px 28px rgba(0, 10, 30, 0.3);
                 padding: 16px 18px;
+            }
+
+            .kpi-card {
+                position: relative;
+                overflow: hidden;
+                background:
+                    linear-gradient(160deg, rgba(13, 28, 45, 0.86), rgba(19, 38, 60, 0.72)),
+                    radial-gradient(280px 160px at 100% 0%, rgba(91, 192, 235, 0.22), rgba(91, 192, 235, 0));
+                border: 1px solid rgba(173, 216, 255, 0.34);
+                border-radius: 16px;
+                padding: 13px 14px 14px 14px;
+                box-shadow: 0 14px 28px rgba(0, 10, 30, 0.34);
+                min-height: 126px;
+                transition: border-color 0.2s ease, transform 0.2s ease;
+            }
+
+            .kpi-card:hover {
+                border-color: rgba(173, 216, 255, 0.62);
+                transform: translateY(-1px);
+            }
+
+            .kpi-card::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(90deg, rgba(91, 192, 235, 0.95), rgba(159, 216, 243, 0.7));
+            }
+
+            .kpi-card__head {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 6px;
+            }
+
+            .kpi-card__label {
+                color: #bed2e8;
+                font-size: 0.76rem;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+
+            .kpi-card__icon {
+                width: 30px;
+                height: 30px;
+                border-radius: 9px;
+                border: 1px solid rgba(173, 216, 255, 0.34);
+                background: rgba(10, 25, 40, 0.72);
+                color: #d7e9fb;
+                font-size: 0.73rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .kpi-card__value {
+                color: #f2f8ff;
+                font-size: 1.8rem;
+                line-height: 1.15;
+                font-weight: 720;
+                margin: 2px 0 4px 0;
+            }
+
+            .kpi-card__meta {
+                color: #9fd8f3;
+                font-size: 0.84rem;
+                margin: 0;
+            }
+
+            .kpi-card--risk::after {
+                background: linear-gradient(90deg, rgba(255, 138, 101, 0.95), rgba(255, 200, 159, 0.72));
+            }
+
+            .kpi-card--risk .kpi-card__meta {
+                color: #ffc4b0;
+            }
+
+            .kpi-card--focus::after {
+                background: linear-gradient(90deg, rgba(110, 231, 200, 0.95), rgba(166, 244, 226, 0.72));
+            }
+
+            .kpi-card--focus .kpi-card__meta {
+                color: #b8f3e4;
             }
 
             .hero {
