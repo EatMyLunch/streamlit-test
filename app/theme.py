@@ -26,6 +26,30 @@ def inject_global_css() -> None:
                     linear-gradient(140deg, var(--bg-1) 0%, var(--bg-2) 100%);
             }
 
+            .main .block-container {
+                padding-top: 1.4rem;
+                padding-bottom: 2rem;
+            }
+
+            [data-testid="stHorizontalBlock"] {
+                gap: 1rem;
+            }
+
+            [data-testid="stDataFrame"] {
+                padding-top: 0.35rem;
+                padding-bottom: 1rem;
+            }
+
+            .stPlotlyChart {
+                padding-top: 0.3rem;
+                padding-bottom: 0.7rem;
+            }
+
+            [data-testid="stAlert"] {
+                margin-top: 0.3rem;
+                margin-bottom: 0.9rem;
+            }
+
             [data-testid="stSidebar"] {
                 background: linear-gradient(180deg, rgba(13, 27, 42, 0.95), rgba(27, 38, 59, 0.95));
                 border-right: 1px solid rgba(173, 216, 255, 0.2);
@@ -74,6 +98,7 @@ def inject_global_css() -> None:
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
                 padding: 24px;
+                margin-bottom: 0.6rem;
                 box-shadow: 0 20px 34px rgba(0, 10, 30, 0.35);
             }
 
@@ -93,7 +118,8 @@ def inject_global_css() -> None:
                 color: #f0f7ff;
                 font-size: 1.02rem;
                 font-weight: 700;
-                margin: 12px 0 8px 0;
+                margin: 1.15rem 0 0.55rem 0;
+                padding-top: 0.1rem;
             }
 
             .kpi-title {
