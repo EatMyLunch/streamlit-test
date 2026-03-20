@@ -5,6 +5,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from app.content import GENERATED_LABEL, HERO_BODY, HERO_TITLE, KPI_META, MESSAGES, SECTION_TITLES
 from app.services.transformers import melt_lagging
 
 
@@ -43,11 +44,9 @@ def render_hero(period: str, area_scope: str) -> None:
     st.markdown(
         f"""
         <div class="hero">
-            <h1>ULTIMATE OHS Dashboard Mockup</h1>
+            <h1>{HERO_TITLE}</h1>
             <p class="muted" style="margin-top:8px; margin-bottom:0; max-width:920px;">
-                Mock data for executive preview, built from the OHS sheet structure: Lagging, Leading, Incidents,
-                Findings PICA, and Monitoring Areas. Filters are currently set to <b>{period}</b> and
-                area scope <b>{area_scope}</b>.
+                {HERO_BODY.format(period=period, area_scope=area_scope)}
             </p>
         </div>
         """,
@@ -55,7 +54,7 @@ def render_hero(period: str, area_scope: str) -> None:
     )
 
     st.markdown(
-        f"<p class='muted' style='margin-top:8px;'>Generated at {datetime.now().strftime('%d %b %Y %H:%M:%S')}</p>",
+        f"<p class='muted' style='margin-top:8px;'>{GENERATED_LABEL}: {datetime.now().strftime('%d %b %Y %H:%M:%S')}</p>",
         unsafe_allow_html=True,
     )
 
@@ -85,13 +84,13 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
             f"({latest_incident['Severity']} severity)."
         )
     else:
-        headline = "No incidents recorded in the current filter."
+        headline = MESSAGES["no_incident_headline"]
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        render_kpi_card(f"DCM {period}", dcm_total, "Lagging total", "SL", tone="info")
+        render_kpi_card(f"DCM {period}", dcm_total, KPI_META["lagging_total"], "SL", tone="info")
     with c2:
-        render_kpi_card(f"Contractor {period}", contractor_total, "Lagging total", "CT", tone="info")
+        render_kpi_card(f"Contractor {period}", contractor_total, KPI_META["lagging_total"], "CT", tone="info")
     with c3:
         render_kpi_card("Open Incidents", open_incidents, f"{open_rate:.1f}% of all cases", "IN", tone="risk")
     with c4:
@@ -112,7 +111,7 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
         unsafe_allow_html=True,
     )
 
-    st.markdown("<div class='section-title'>Safety Snapshot</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['snapshot']}</div>", unsafe_allow_html=True)
     left, right = st.columns(2)
 
     with left:
@@ -150,9 +149,9 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
             )
             st.plotly_chart(fig_type, use_container_width=True)
         else:
-            st.info("No incident data to visualize for the selected filters.")
+            st.info(MESSAGES["no_incident_chart"])
 
-    st.markdown("<div class='section-title'>Operational Signals</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['signals']}</div>", unsafe_allow_html=True)
     s1, s2, s3 = st.columns(3)
 
     with s1:
@@ -168,7 +167,7 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
             chart_style(fig_trend, "Incident Trend by Day")
             st.plotly_chart(fig_trend, use_container_width=True)
         else:
-            st.info("No trend data available.")
+            st.info(MESSAGES["no_trend"])
 
     with s2:
         if not incidents.empty and "Severity" in incidents.columns:
@@ -186,7 +185,7 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
             chart_style(fig_sev, "Severity Profile by Type")
             st.plotly_chart(fig_sev, use_container_width=True)
         else:
-            st.info("Severity data is not available.")
+            st.info(MESSAGES["no_severity"])
 
     with s3:
         leading_focus = leading[["Activity", period]].sort_values(period, ascending=False).head(6)
@@ -200,7 +199,7 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
         chart_style(fig_lead, f"Top Leading Activities ({period})")
         st.plotly_chart(fig_lead, use_container_width=True)
 
-    st.markdown("<div class='section-title'>Findings and Exposure</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['findings_exposure']}</div>", unsafe_allow_html=True)
     b1, b2 = st.columns(2)
     with b1:
         findings_long = findings.melt(
@@ -234,7 +233,7 @@ def render_overview(data: dict[str, pd.DataFrame], period: str) -> None:
 
 
 def render_lagging(df: pd.DataFrame) -> None:
-    st.markdown("<div class='section-title'>Lagging Indicators</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['lagging']}</div>", unsafe_allow_html=True)
     st.dataframe(df, use_container_width=True)
 
     c1, c2 = st.columns(2)
@@ -264,7 +263,7 @@ def render_lagging(df: pd.DataFrame) -> None:
 
 
 def render_leading(df: pd.DataFrame, period: str) -> None:
-    st.markdown("<div class='section-title'>Leading Indicators</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['leading']}</div>", unsafe_allow_html=True)
     st.dataframe(df, use_container_width=True)
 
     left, right = st.columns(2)
@@ -299,10 +298,10 @@ def render_leading(df: pd.DataFrame, period: str) -> None:
 
 
 def render_incidents(df: pd.DataFrame) -> None:
-    st.markdown("<div class='section-title'>Incidents Register</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['incidents']}</div>", unsafe_allow_html=True)
 
     if df.empty:
-        st.info("No incidents available for the current filter.")
+        st.info(MESSAGES["no_incidents_page"])
         return
 
     incidents = df.copy()
@@ -323,17 +322,17 @@ def render_incidents(df: pd.DataFrame) -> None:
 
     k1, k2, k3, k4 = st.columns(4)
     with k1:
-        render_kpi_card("Total Incidents", total_cases, "All recorded cases", "TC", tone="neutral")
+        render_kpi_card("Total Incidents", total_cases, KPI_META["all_recorded_cases"], "TC", tone="neutral")
     with k2:
         render_kpi_card("Open Cases", open_cases, f"{(open_cases / total_cases * 100):.1f}% backlog", "OP", tone="risk")
     with k3:
         render_kpi_card("High Severity", high_cases, f"{high_rate:.1f}% of all incidents", "HS", tone="risk")
     with k4:
-        render_kpi_card("Impacted Locations", unique_locations, "Distinct work areas", "AR", tone="focus")
+        render_kpi_card("Impacted Locations", unique_locations, KPI_META["distinct_work_areas"], "AR", tone="focus")
 
     st.dataframe(incidents.sort_values(["Date", "Time"], ascending=False), use_container_width=True)
 
-    st.markdown("<div class='section-title'>Incident Mix</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['incident_mix']}</div>", unsafe_allow_html=True)
     mix1, mix2, mix3 = st.columns(3)
 
     with mix1:
@@ -382,7 +381,7 @@ def render_incidents(df: pd.DataFrame) -> None:
         chart_style(fig_workforce, "Type Distribution by Workforce")
         st.plotly_chart(fig_workforce, use_container_width=True)
 
-    st.markdown("<div class='section-title'>Time and Location Signals</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['time_location']}</div>", unsafe_allow_html=True)
     t1, t2, t3 = st.columns(3)
 
     with t1:
@@ -429,7 +428,7 @@ def render_incidents(df: pd.DataFrame) -> None:
         chart_style(fig_locations, "Top Incident Locations")
         st.plotly_chart(fig_locations, use_container_width=True)
 
-    st.markdown("<div class='section-title'>Root Cause Breakdown</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['root_cause']}</div>", unsafe_allow_html=True)
     cause = incidents["Cause"].value_counts().reset_index()
     cause.columns = ["Cause", "Count"]
     fig_cause = px.bar(
@@ -444,7 +443,7 @@ def render_incidents(df: pd.DataFrame) -> None:
 
 
 def render_findings(df: pd.DataFrame) -> None:
-    st.markdown("<div class='section-title'>Findings PICA</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['findings']}</div>", unsafe_allow_html=True)
     st.dataframe(df, use_container_width=True)
 
     left, right = st.columns(2)
@@ -473,7 +472,7 @@ def render_findings(df: pd.DataFrame) -> None:
 
 
 def render_areas(df: pd.DataFrame) -> None:
-    st.markdown("<div class='section-title'>Monitoring Areas</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='section-title'>{SECTION_TITLES['areas']}</div>", unsafe_allow_html=True)
     st.dataframe(df, use_container_width=True)
 
     counts = df["Group"].value_counts().reset_index()

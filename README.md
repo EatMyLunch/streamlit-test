@@ -1,7 +1,7 @@
-# Ultimate OHS Dashboard Mockup
+# Ultimate OHS Performance Dashboard
 
-This repository contains a Streamlit mockup for an Occupational Health and Safety (OHS) dashboard.
-It uses only OHS-related sample data aligned with the provided Google Sheet structure:
+This repository contains a Streamlit application for an Occupational Health and Safety (OHS) performance dashboard.
+It currently runs on a representative OHS dataset aligned with the provided Google Sheet structure:
 
 1. Lagging_Indicators
 2. Leading_Indicators
@@ -9,7 +9,7 @@ It uses only OHS-related sample data aligned with the provided Google Sheet stru
 4. Findings_PICA
 5. Monitoring_Areas
 
-The current app is designed for UI and flow validation before integrating real production data.
+The current app is structured for rapid transition to connected enterprise data sources.
 
 ## Project Structure
 
@@ -17,9 +17,9 @@ The current app is designed for UI and flow validation before integrating real p
 streamlit_app.py
 app/
    main.py                  # App orchestration and sidebar navigation
-   theme.py                 # Global CSS theme and glassmorphism styles
+   theme.py                 # Global CSS theme and dashboard styling
    data/
-      mock_data.py           # OHS-only mock datasets and lagging calculations
+      mock_data.py           # OHS representative datasets and lagging calculations
    services/
       transformers.py        # Filtering and dataframe transformations
    views/

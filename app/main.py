@@ -1,7 +1,8 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-from app.data.mock_data import load_mock_sheet_tabs
+from app.data.mock_data import load_mock_sheet_tabs as load_sheet_tabs
+from app.content import APP_TITLE, NAV_LABELS, SIDEBAR_SUBTITLE, SIDEBAR_TITLE
 from app.services.transformers import filter_areas, filter_incident_status
 from app.theme import inject_global_css
 from app.views.pages import (
@@ -17,7 +18,7 @@ from app.views.pages import (
 
 def setup_page() -> None:
     st.set_page_config(
-        page_title="Ultimate OHS Dashboard Mockup",
+        page_title=APP_TITLE,
         page_icon=":helmet_with_white_cross:",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -28,17 +29,17 @@ def run_app() -> None:
     setup_page()
     inject_global_css()
 
-    data = load_mock_sheet_tabs()
+    data = load_sheet_tabs()
     period = "YTD"
     area_scope = "All"
     incident_status = "All"
 
     with st.sidebar:
         st.markdown(
-            """
+            f"""
             <div class="sidebar-brand">
-                <p class="sidebar-brand__title">Ultimate OHS</p>
-                <p class="sidebar-brand__subtitle">Mockup mode</p>
+                <p class="sidebar-brand__title">{SIDEBAR_TITLE}</p>
+                <p class="sidebar-brand__subtitle">{SIDEBAR_SUBTITLE}</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -46,7 +47,7 @@ def run_app() -> None:
 
         selected_page = option_menu(
             menu_title=None,
-            options=["Overview", "Lagging", "Leading", "Incidents", "Findings", "Areas"],
+            options=NAV_LABELS,
             icons=["speedometer2", "exclamation-triangle", "activity", "clipboard-data", "check2-square", "geo-alt"],
             default_index=0,
             styles={
@@ -77,7 +78,7 @@ def run_app() -> None:
 
     render_hero(period, area_scope)
 
-    if selected_page == "Overview":
+    if selected_page == "Executive Overview":
         render_overview(filtered, period)
     elif selected_page == "Lagging":
         render_lagging(filtered["Lagging_Indicators"])
