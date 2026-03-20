@@ -1,2 +1,6 @@
 streamlit
 pandas
+plotly
+numpy
+streamlit-option-menu
+streamlit-autorefresh

@@ -1,19 +1,41 @@
-# :earth_americas: GDP dashboard template
+# Ultimate OHS Dashboard Mockup
 
-A simple Streamlit app showing the GDP of different countries in the world.
+This repository contains a Streamlit mockup for an Occupational Health and Safety (OHS) dashboard.
+It uses only OHS-related sample data aligned with the provided Google Sheet structure:
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
+1. Lagging_Indicators
+2. Leading_Indicators
+3. Incidents
+4. Findings_PICA
+5. Monitoring_Areas
 
-### How to run it on your own machine
+The current app is designed for UI and flow validation before integrating real production data.
 
-1. Install the requirements
+## Project Structure
 
-   ```
-   $ pip install -r requirements.txt
-   ```
+```text
+streamlit_app.py
+app/
+   main.py                  # App orchestration and sidebar navigation
+   theme.py                 # Global CSS theme and glassmorphism styles
+   data/
+      mock_data.py           # OHS-only mock datasets and lagging calculations
+   services/
+      transformers.py        # Filtering and dataframe transformations
+   views/
+      pages.py               # Page renderers and chart sections
+```
 
-2. Run the app
+## Run Locally
 
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+1. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+2. Run Streamlit
+
+```bash
+streamlit run streamlit_app.py
+```
