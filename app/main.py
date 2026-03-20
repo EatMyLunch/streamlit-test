@@ -29,10 +29,20 @@ def run_app() -> None:
     inject_global_css()
 
     data = load_mock_sheet_tabs()
+    period = "YTD"
+    area_scope = "All"
+    incident_status = "All"
 
     with st.sidebar:
-        st.markdown("## Ultimate OHS")
-        st.caption("Mockup mode")
+        st.markdown(
+            """
+            <div class="sidebar-brand">
+                <p class="sidebar-brand__title">Ultimate OHS</p>
+                <p class="sidebar-brand__subtitle">Mockup mode</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
         selected_page = option_menu(
             menu_title=None,
@@ -40,7 +50,12 @@ def run_app() -> None:
             icons=["speedometer2", "exclamation-triangle", "activity", "clipboard-data", "check2-square", "geo-alt"],
             default_index=0,
             styles={
-                "container": {"padding": "0", "background-color": "transparent"},
+                "container": {
+                    "padding": "8px",
+                    "background-color": "rgba(255, 255, 255, 0.03)",
+                    "border": "1px solid rgba(173, 216, 255, 0.16)",
+                    "border-radius": "14px",
+                },
                 "icon": {"color": "#9fd8f3", "font-size": "16px"},
                 "nav-link": {
                     "font-size": "14px",
@@ -56,11 +71,6 @@ def run_app() -> None:
                 },
             },
         )
-
-        st.divider()
-        period = st.selectbox("Period", ["YTD", "MTD", "WTD"], index=0)
-        area_scope = st.selectbox("Area Group", ["All", "Utara", "Selatan"], index=0)
-        incident_status = st.selectbox("Incident Status", ["All", "Open", "Closed"], index=0)
 
     filtered = filter_areas(data, area_scope)
     filtered["Incidents"] = filter_incident_status(filtered["Incidents"], incident_status)

@@ -31,6 +31,32 @@ def inject_global_css() -> None:
                 border-right: 1px solid rgba(173, 216, 255, 0.2);
             }
 
+            [data-testid="stSidebar"] > div:first-child {
+                padding-top: 1.1rem;
+            }
+
+            .sidebar-brand {
+                background: linear-gradient(130deg, rgba(91, 192, 235, 0.18), rgba(159, 216, 243, 0.08));
+                border: 1px solid rgba(173, 216, 255, 0.28);
+                border-radius: 14px;
+                padding: 12px 14px;
+                margin-bottom: 12px;
+                box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+            }
+
+            .sidebar-brand__title {
+                margin: 0;
+                font-size: 1.03rem;
+                font-weight: 700;
+                color: #f1f8ff;
+            }
+
+            .sidebar-brand__subtitle {
+                margin: 3px 0 0 0;
+                font-size: 0.83rem;
+                color: #a9c3da;
+            }
+
             .glass {
                 background: var(--panel);
                 border: 1px solid var(--panel-border);
