@@ -114,6 +114,48 @@ def inject_global_css() -> None:
                 font-size: 0.88rem;
                 margin: 0;
             }
+
+            .insight-band {
+                margin-top: 12px;
+                margin-bottom: 8px;
+                background:
+                    linear-gradient(115deg, rgba(91, 192, 235, 0.2), rgba(255, 255, 255, 0.05)),
+                    radial-gradient(600px 120px at 80% 10%, rgba(159, 216, 243, 0.18), rgba(159, 216, 243, 0));
+                border: 1px solid rgba(173, 216, 255, 0.32);
+                border-radius: 18px;
+                padding: 14px 16px;
+            }
+
+            .insight-title {
+                margin: 0;
+                color: #f4f9ff;
+                font-size: 0.78rem;
+                letter-spacing: 0.11em;
+                text-transform: uppercase;
+                font-weight: 700;
+            }
+
+            .insight-text {
+                margin: 4px 0 0 0;
+                color: #d7e9fb;
+                font-size: 0.95rem;
+            }
+
+            .pill-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 10px;
+            }
+
+            .pill {
+                background: rgba(10, 29, 48, 0.52);
+                border: 1px solid rgba(173, 216, 255, 0.24);
+                border-radius: 999px;
+                color: #d8ebfb;
+                font-size: 0.8rem;
+                padding: 4px 10px;
+            }
         </style>
         """,
         unsafe_allow_html=True,

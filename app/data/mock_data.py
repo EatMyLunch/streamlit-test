@@ -13,23 +13,26 @@ def load_mock_sheet_tabs() -> dict[str, pd.DataFrame]:
 
     incidents_raw = pd.DataFrame(
         [
-            [f"{current_year}-03-02", "07:10 WIT", "Saepul", "Jetty Utara", "FAC", "Pinch point", "Closed", "DCM"],
-            [f"{current_year}-03-03", "10:20 WIT", "Rahman", "Jetty N3", "Nearmiss NM", "Slip hazard", "Open", "Contractor"],
-            [f"{current_year}-03-03", "14:20 WIT", "Dedi", "Workshop", "MTC", "Hot surface", "Closed", "DCM"],
-            [f"{current_year}-03-04", "18:40 WIT", "Arif", "Jetty Selatan", "FAC", "Hand tool contact", "Open", "Contractor"],
-            [f"{current_year}-03-05", "05:15 WIT", "Bimo", "TPST Karo", "Fire Case", "Electrical short", "Closed", "DCM"],
-            [f"{current_year}-03-06", "06:20 WIT", "Sandi", "IPAL", "PD", "Dust exposure", "Closed", "Contractor"],
-            [f"{current_year}-03-07", "11:40 WIT", "Rian", "Jetty N1", "FAC", "Dropped material", "Open", "DCM"],
-            [f"{current_year}-03-08", "09:55 WIT", "Galih", "Jetty N2", "Nearmiss NM", "Vehicle blind spot", "Closed", "Contractor"],
-            [f"{current_year}-03-09", "23:03 WIT", "Bayu", "IPAL Sriwijaya", "FAC", "Pinch point", "Closed", "DCM"],
-            [f"{current_year}-03-10", "08:15 WIT", "Rafi", "Jetty N3", "LTI", "Improper lifting", "Open", "Contractor"],
-            [f"{current_year}-03-10", "16:50 WIT", "Teguh", "Workshop", "MTC", "Sharp edge", "Closed", "DCM"],
-            [f"{current_year}-03-11", "10:00 WIT", "Ari", "Jetty Selatan", "FAC", "Falling object", "Closed", "Contractor"],
-            [f"{current_year}-03-11", "20:35 WIT", "Hendra", "Jetty Utara", "PD", "Fume inhalation", "Closed", "DCM"],
-            [f"{current_year}-03-12", "13:10 WIT", "Yusuf", "Workshop", "LTI", "Hand trapped", "Open", "DCM"],
-            [f"{current_year}-03-12", "07:35 WIT", "Imam", "IPAL", "FAC", "Minor cut", "Closed", "Contractor"],
+            [f"{current_year}-03-02", "07:10 WIT", "Saepul", "Jetty Utara", "FAC", "Pinch point", "Closed", "Low", "DCM"],
+            [f"{current_year}-03-03", "10:20 WIT", "Rahman", "Jetty N3", "Nearmiss NM", "Slip hazard", "Open", "Medium", "Contractor"],
+            [f"{current_year}-03-03", "14:20 WIT", "Dedi", "Workshop", "MTC", "Hot surface", "Closed", "Medium", "DCM"],
+            [f"{current_year}-03-04", "18:40 WIT", "Arif", "Jetty Selatan", "FAC", "Hand tool contact", "Open", "Low", "Contractor"],
+            [f"{current_year}-03-05", "05:15 WIT", "Bimo", "TPST Karo", "Fire Case", "Electrical short", "Closed", "High", "DCM"],
+            [f"{current_year}-03-06", "06:20 WIT", "Sandi", "IPAL", "PD", "Dust exposure", "Closed", "Medium", "Contractor"],
+            [f"{current_year}-03-07", "11:40 WIT", "Rian", "Jetty N1", "FAC", "Dropped material", "Open", "Medium", "DCM"],
+            [f"{current_year}-03-08", "09:55 WIT", "Galih", "Jetty N2", "Nearmiss NM", "Vehicle blind spot", "Closed", "Low", "Contractor"],
+            [f"{current_year}-03-09", "23:03 WIT", "Bayu", "IPAL Sriwijaya", "FAC", "Pinch point", "Closed", "Low", "DCM"],
+            [f"{current_year}-03-10", "08:15 WIT", "Rafi", "Jetty N3", "LTI", "Improper lifting", "Open", "High", "Contractor"],
+            [f"{current_year}-03-10", "16:50 WIT", "Teguh", "Workshop", "MTC", "Sharp edge", "Closed", "Medium", "DCM"],
+            [f"{current_year}-03-11", "10:00 WIT", "Ari", "Jetty Selatan", "FAC", "Falling object", "Closed", "Low", "Contractor"],
+            [f"{current_year}-03-11", "20:35 WIT", "Hendra", "Jetty Utara", "PD", "Fume inhalation", "Closed", "Medium", "DCM"],
+            [f"{current_year}-03-12", "13:10 WIT", "Yusuf", "Workshop", "LTI", "Hand trapped", "Open", "High", "DCM"],
+            [f"{current_year}-03-12", "07:35 WIT", "Imam", "IPAL", "FAC", "Minor cut", "Closed", "Low", "Contractor"],
+            [f"{current_year}-03-13", "12:25 WIT", "Slamet", "Jetty N2", "FAC", "Struck by object", "Open", "Medium", "Contractor"],
+            [f"{current_year}-03-14", "06:40 WIT", "Jaka", "Jetty Utara", "PD", "Chemical splash", "Open", "High", "DCM"],
+            [f"{current_year}-03-14", "15:10 WIT", "Rizky", "Workshop", "Nearmiss NM", "Unsafe access", "Closed", "Low", "Contractor"],
         ],
-        columns=["Date", "Time", "Name", "Location", "Type", "Cause", "Status", "Workforce"],
+        columns=["Date", "Time", "Name", "Location", "Type", "Cause", "Status", "Severity", "Workforce"],
     )
     incidents_raw["Date"] = pd.to_datetime(incidents_raw["Date"])
 
@@ -74,7 +77,7 @@ def load_mock_sheet_tabs() -> dict[str, pd.DataFrame]:
         columns=["Group", "Description"],
     )
 
-    incidents = incidents_raw[["Date", "Time", "Name", "Location", "Type", "Cause", "Status"]].copy()
+    incidents = incidents_raw[["Date", "Time", "Name", "Location", "Type", "Cause", "Status", "Severity", "Workforce"]].copy()
 
     return {
         "Lagging_Indicators": lagging,
